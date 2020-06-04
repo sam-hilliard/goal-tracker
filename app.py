@@ -1,4 +1,3 @@
-# app.py
 import tkinter as tk
 from tasklist import TaskList
 
@@ -7,6 +6,7 @@ class App:
     def __init__(self):
         window = tk.Tk()
         window.geometry('600x500')
+        window.title('Daily Goal and Habit Tracker')
 
         goals = TaskList(window, True)
         habits = TaskList(window, False)

@@ -1,35 +1,47 @@
 # tasklist.py
 
 import tkinter as tk
+from task import Task
+from popup import Popup
 
 class TaskList:
 
     def __init__(self, parent, isGoalSide):
         self.tasks = []
+        self.isGoalSide = isGoalSide
+        self.parent = parent
 
-        body = tk.Frame(parent, bg = '#a4b0be')
+        # creates the main container frame for the list
+        self.fr_body = tk.Frame(parent, bg = '#a4b0be')
         if isGoalSide:
-            body.pack(side = 'left', fill = 'both', expand = True)
+            self.fr_body.pack(side = 'left', fill = 'both', expand = True)
         else:
-            body.pack(side = 'right', fill = 'both', expand = True)
+            self.fr_body.pack(side = 'right', fill = 'both', expand = True)
 
-        header = tk.Frame(body)
-        header.pack(fill = 'x')
+        # frame to hold the title of the list and a button to add more tasks
+        self.fr_header = tk.Frame(self.fr_body)
+        self.fr_header.pack(fill = 'x')
 
-        title = tk.Label(header, text = 'List', font = ('Helvetica', 15), width = 10, fg = 'white')
+        # label used to identify the type of the list
+        title = tk.Label(self.fr_header, text = 'List', font = ('Helvetica', 15), width = 10, fg = 'white')
         title.grid(row = 0, column = 0, pady = 5)
-        if isGoalSide:
-            header.configure(bg = '#55efc4')
+        if self.isGoalSide:
+            self.fr_header.configure(bg = '#55efc4')
             title.configure(text = 'Goals', bg = '#55efc4')
         else:
-            header.configure(bg = '#74b9ff')
+            self.fr_header.configure(bg = '#74b9ff')
             title.configure(text = 'Habits', bg = '#74b9ff')
 
-        btn_add = tk.Button(header, text = '+')
-        btn_add.grid(row = 0, column = 1, pady = 5)
+        # adds a task to the task list
+        self.btn_add = tk.Button(self.fr_header, text = '+', command = lambda: self.addTask())
+        self.btn_add.grid(row = 0, column = 1, pady = 5)
 
+    # adds a task graphically to a list as well as adds a task object to the tasks 
     def addTask(self):
-        print('task added')
-        
+        popup = Popup(self.parent, self.isGoalSide)
+        if popup.isValid:
+            name = popup.input
+            task = Task(name, self.fr_body, self.isGoalSide)
+            self.tasks.append(task)
 
         
