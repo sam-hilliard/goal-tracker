@@ -10,11 +10,15 @@ class App:
 
     def __init__(self):
         self.task_lists = [[], []]
+
         self.main_window = tk.Tk()
-        self.main_window.geometry('600x500')
+        posx = int(self.main_window.winfo_screenwidth() / 2 - 300)
+        posy = int(self.main_window.winfo_screenheight() / 2 - 250)
+        self.main_window.geometry('600x500+{}+{}'.format(posx, posy))
         self.main_window.title('Daily Goal and Habit Tracker')
+        self.main_window.configure(bg='#a4b0be')
+        self.main_window.resizable(False, False)
         self.lastClosed = ''
-        self.openTime = datetime.now().strftime('%H:%M:%S')
 
     def run(self):
 
@@ -39,7 +43,7 @@ class App:
             for task in self.task_lists[i]:
                 if not task.isRemoved:
                     data = {
-                        'name': str(task.name.get()),
+                        'name': str(task.name),
                         'streak': int(task.streak),
                         'isGoal': bool(task.isGoal),
                         'isComplete': bool(task.isComplete.get())
@@ -53,12 +57,15 @@ class App:
         save_file = open('timelog.txt', 'w')
         save_file.truncate(0)
         save_file.write(closed_date)
-    
+
     # loads saved task data and last operation data
     def load(self):
         # update las closed date
-        time_file = open('timelog.txt', 'r')
-        self.lastClosed = time_file.readline()
+        try:
+            time_file = open('timelog.txt', 'r')
+            self.lastClosed = time_file.readline()
+        except FileNotFoundError:
+            self.lastClosed = datetime.today().strftime('%d/%m/%Y')
         # get the saved tasks
         try:
             data_lists = pickle.load(open('user_data.p', 'rb'))
@@ -66,11 +73,10 @@ class App:
                 for data in data_lists[i]:
                     task = Task(data['name'], data['streak'],
                                 data['isGoal'], data['isComplete'], self.main_window)
-
                     # if date has changed to some point in the future, revert the task to incomplete state
-                    if self.lastClosed != datetime.date.today().strftime('%d/%m/%Y'):
-                        task.configureColors(True)
+                    if self.lastClosed != datetime.today().strftime('%d/%m/%Y') and task.isComplete.get():
                         task.isComplete.set(False)
+                        task.streak += 1
                     self.task_lists[i].append(task)
         except FileNotFoundError:
             self.task_lists = [[], []]
