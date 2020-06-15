@@ -23,17 +23,13 @@ class Task:
 
     # adds all of the elements to the gui
     # kept seperate because of the need to save and load data
-    def display(self, numr):
+    def display(self):
         sepx = 10
         sepy = 10
-        numc = 0
-
-        if not self.isGoal:
-            numc = 1
 
         # holds all of the widgets of a task
         self.fr_body = tk.Frame(self.parent)
-        self.fr_body.grid(row=numr, column=numc, padx=5, pady=(25, 0), ipady=5)
+        self.fr_body.pack(padx=0, pady=(25,0), ipady=5)
 
         # recieves user input to decide if task is complete or not
         self.cb_done = tk.Checkbutton(

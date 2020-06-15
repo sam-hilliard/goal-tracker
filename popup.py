@@ -22,7 +22,7 @@ class Popup:
         sepx = 50
         sepy = 10
         # prompts user
-        self.lbl_prompt = tk.Label(self.window)
+        self.lbl_prompt = tk.Label(self.window, fg='white')
         self.lbl_prompt.grid(row=0, column=0, padx=sepx, pady=sepy)
 
         # accepts user input

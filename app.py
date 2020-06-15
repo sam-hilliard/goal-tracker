@@ -12,9 +12,9 @@ class App:
         self.task_lists = [[], []]
 
         self.main_window = tk.Tk()
-        posx = int(self.main_window.winfo_screenwidth() / 2 - 300)
+        posx = int(self.main_window.winfo_screenwidth() / 2 - 307)
         posy = int(self.main_window.winfo_screenheight() / 2 - 250)
-        self.main_window.geometry('600x500+{}+{}'.format(posx, posy))
+        self.main_window.geometry('615x500+{}+{}'.format(posx, posy))
         self.main_window.title('Daily Goal and Habit Tracker')
         self.main_window.configure(bg='#a4b0be')
         self.main_window.resizable(False, False)

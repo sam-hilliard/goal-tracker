@@ -13,10 +13,10 @@ class TaskList:
         self.window = window
 
         # frame to hold the title of the list and a button to add more tasks
-        self.fr_header = tk.Frame(self.window, relief='solid')
+        self.fr_header = tk.Frame(self.window, relief='solid', borderwidth=4)
 
         # creates the main container frame for the list
-        self.fr_body = tk.Frame(window, bg='#a4b0be', relief='solid')
+        self.fr_body = tk.Frame(window, bg='#a4b0be', relief='solid', borderwidth=4)
         if isGoalSide:
             self.fr_header.grid(row=0, column=0)
             self.fr_body.grid(row=1, column=0)
@@ -43,10 +43,9 @@ class TaskList:
 
     # displays tasks to the gui with the appropriate window
     def prepTasks(self):
-        for i in range(len(self.tasks)):
-            task = self.tasks[i]
+        for task in self.tasks:
             task.parent = self.fr_body
-            task.display(i)
+            task.display()
 
     # adds a task graphically to a list as well as adds a task object to the tasks
     def addTask(self):
@@ -58,5 +57,4 @@ class TaskList:
             name = popup.input.get()
             task = Task(name, 0, self.isGoalSide, False, self.fr_body)
             self.tasks.append(task)
-            position = len(self.tasks)
-            task.display(position)
+            task.display()
