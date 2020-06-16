@@ -2,12 +2,11 @@ import tkinter as tk
 from popup import Popup
 
 
-class Task:
+class Habit:
 
-    def __init__(self, name, streak, isGoal, isComplete, parent):
+    def __init__(self, name, streak, isComplete, parent):
         self.name = name
         self.name_var = tk.StringVar(value=name)
-        self.isGoal = isGoal
         self.streak = streak
         self.isComplete = tk.BooleanVar(value=isComplete)
         self.isRemoved = False
@@ -29,20 +28,20 @@ class Task:
 
         # holds all of the widgets of a task
         self.fr_body = tk.Frame(self.parent)
-        self.fr_body.pack(padx=0, pady=(25,0), ipady=5)
+        self.fr_body.pack(pady=(0,25), ipady=5)
 
         # recieves user input to decide if task is complete or not
         self.cb_done = tk.Checkbutton(
-            self.fr_body, onvalue=True, offvalue=False, variable=self.isComplete, command=self.taskCompleted)
+            self.fr_body, onvalue=True, offvalue=False, variable=self.isComplete, command=self.configureColors)
         self.cb_done.grid(row=0, column=0, padx=(0, sepx), pady=(sepy, 0))
 
         # displays the name of the task
         self.lbl_name = tk.Label(
-            self.fr_body, textvariable=self.name_var, font=('Helvetica', 11), width=10)
+            self.fr_body, textvariable=self.name_var, font=('Helvetica', 11), width=18)
         self.lbl_name.grid(row=0, column=1, padx=(0, sepx), pady=(sepy, 0))
         name = self.name
-        if len(name) > 13:
-            name = name[0:10] + '...'
+        if len(name) > 22:
+            name = name[0:20] + '...'
         self.name_var.set(name)
 
         # displays the task's streak
@@ -64,7 +63,7 @@ class Task:
 
     # edits the name of the task
     def editName(self):
-        popup = Popup(self.parent, self.isGoal)
+        popup = Popup(self.parent)
         popup.promptUser(False)
         self.parent.wait_window(popup.window)
 
@@ -72,19 +71,14 @@ class Task:
             self.name = popup.input.get()
             self.name_var.set(self.name)
             name = self.name
-            if len(name) > 13:
-                name = name[0:10] + '...'
+            if len(name) > 22:
+                name = name[0:20] + '...'
             self.name_var.set(name)
 
     # deletes a task from the list
     def deleteTask(self):
         self.fr_body.destroy()
         self.isRemoved = True
-
-    def taskCompleted(self):
-        self.configureColors()
-        # self.streak += 1
-        # add functionality to where streak updates as soon as you click the checkbutton
     
     # used to set the colors of the tasks depending on if they were completed or not
     def configureColors(self):
@@ -100,13 +94,7 @@ class Task:
                        widget.configure(bg='#dcdde1')
         else:
             for widget in widgets:
-                if self.isGoal:
-                    try:
-                        widget.configure(bg='#00b894', fg='white')
-                    except:
-                        widget.configure(bg='#00b894')
-                else:
-                    try:
-                        widget.configure(bg='#0984e3', fg='white')
-                    except:
-                        widget.configure(bg='#0984e3')
+                try:
+                    widget.configure(bg='#74b9ff', fg='white')
+                except:
+                    widget.configure(bg='#74b9ff')

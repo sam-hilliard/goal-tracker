@@ -3,11 +3,10 @@ import tkinter as tk
 
 class Popup:
 
-    def __init__(self, root, isGoal):
+    def __init__(self, root):
         self.root = root
         self.input = tk.StringVar()
         self.isValid = False
-        self.isGoal = isGoal
         self.window = tk.Toplevel(self.root)
 
         # set the position of the popup to the middle of the window
@@ -22,7 +21,7 @@ class Popup:
         sepx = 50
         sepy = 10
         # prompts user
-        self.lbl_prompt = tk.Label(self.window, fg='white')
+        self.lbl_prompt = tk.Label(self.window, fg='white', font=('Helvetica', 11))
         self.lbl_prompt.grid(row=0, column=0, padx=sepx, pady=sepy)
 
         # accepts user input
@@ -41,29 +40,17 @@ class Popup:
     # popup window configured to ask the user for task input
     def promptUser(self, isCreate):
 
-        # configure text
+        # configure the color scheme and prompts
         if isCreate:
+            self.window.title('Create a new goal')
             self.lbl_prompt.configure(text='Enter a name: ')
             self.btn_confirm.configure(text='Create')
         else:
+            self.window.title('New habit name')
             self.lbl_prompt.configure(text='Enter a new name: ')
             self.btn_confirm.configure(text='Change')
-
-        # configure the color scheme and prompts
-        if self.isGoal:
-            if isCreate:
-                self.window.title('Create a new goal')
-            else:
-                self.window.title('New goal name')
-            self.window.configure(bg='#00b894')
-            self.lbl_prompt.configure(bg='#00b894')
-        else:
-            if isCreate:
-                self.window.title('Create a new goal')
-            else:
-                self.window.title('New habit name')
-            self.window.configure(bg='#0984e3')
-            self.lbl_prompt.configure(bg='#0984e3')
+        self.window.configure(bg='#74b9ff')
+        self.lbl_prompt.configure(bg='#74b9ff')
 
     # exits out of the popup if input has been recieved
     def quit(self):
