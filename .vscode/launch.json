@@ -8,7 +8,7 @@
             "name": "Python: main.py",
             "type": "python",
             "request": "launch",
-            "program": "C:/Users/samhi/Documents/Development/Python/goal-tracker/main.py",
+            "program": "C:/Users/samhi/Documents/Development/Python/goal-tracker/python/main.py",
             "console": "integratedTerminal"
         }
     ]

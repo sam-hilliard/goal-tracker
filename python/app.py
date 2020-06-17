@@ -19,7 +19,7 @@ class App:
         self.main_window.configure(bg='#a4b0be')
         self.main_window.resizable(False, False)
 
-        self.openTime = datetime.date(datetime.now())
+        self.openTime = str(datetime.date(datetime.now()))
         self.lastClosed = ''
 
     def run(self):
@@ -46,7 +46,7 @@ class App:
                 }
                 data_lists.append(data)
             # check to see if the date changed while app was running
-            if self.openTime != datetime.date(datetime.now()):
+            if self.openTime != str(datetime.date(datetime.now())):
                 if habit.isComplete.get():
                         habit.streak += 1
                 else:
@@ -56,7 +56,7 @@ class App:
         pickle.dump(data_lists, open('user_data.p', 'wb'))
 
         # record the time that the app closed
-        closed_date = datetime.date(datetime.now())
+        closed_date = str(datetime.date(datetime.now()))
         save_file = open('timelog.txt', 'w')
         save_file.truncate(0)
         save_file.write(closed_date)
@@ -68,7 +68,7 @@ class App:
             time_file = open('timelog.txt', 'r')
             self.lastClosed = time_file.readline()
         except FileNotFoundError:
-            self.lastClosed = datetime.date(datetime.now())
+            self.lastClosed = str(str(datetime.date(datetime.now())))
         # get the saved habits
         try:
             data_lists = pickle.load(open('user_data.p', 'rb'))
